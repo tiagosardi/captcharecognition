@@ -15,36 +15,32 @@ function image_data = padrao()
   %para cada imagem rotacionada, escalada e proveniente do diretorio
   %criei mais 5 imagens com ruidos sal e pimenta com diferentes intensidades
   qtdeRuido=5;
-  image_data=cell(1,qtdeRotacao*qtdeEscala*qtdeRuido);
-  contador=1;
+  image_data=cell(length(arquivos),qtdeRotacao*qtdeEscala*qtdeRuido);
   tamanhoImg=.5;
   ruido=0;
   
   passoOriginal= (qtdeEscala*qtdeRuido+qtdeEscala)*qtdeRotacao+qtdeRotacao;
   passoRotacao = qtdeEscala*qtdeRuido+qtdeEscala;
-  for i=1: passoOriginal+1:length(arquivos)*qtdeRotacao*qtdeEscala*qtdeRuido
-  img = imread(fullfile(endereco , arquivos(contador,1).name));
-    image_data{i}=img;
-    disp("original: "), disp(i);
-    for j=i+1:passoRotacao+1:i+passoRotacao*qtdeRotacao
-      num = floor(1 + (360-1)*rand(1,1));
-      image_data{j}=imrotate(image_data{i}, num);
-      %disp("rotacao: "), disp(j);
-      for k=j+1:qtdeRuido+1:j+passoRotacao%j+qtdeEscala+qtdeRuido
-        image_data{k}=imresize(image_data{j},tamanhoImg);
-        %disp("escala: "), disp(k);
-        tamanhoImg=tamanhoImg+.25;
-        for l=k+1:k+qtdeRuido
-          image_data{l}=imnoise(image_data{k},"salt & pepper",ruido);
-          %disp("ruido: "), disp(l);
-          ruido=ruido+.01;
+
+    for i=1:length(arquivos)
+      img = imread(fullfile(endereco , arquivos(i,1).name));
+      disp("Loading: "), disp(length(arquivos)-i);
+      image_data{i,1}=img;
+      for j=2:passoRotacao+1:i+passoRotacao*qtdeRotacao
+        num = floor(1 + (360-1)*rand(1,1));
+        image_data{i,j}=imrotate(image_data{i,1}, num);
+        %disp("rotacao: "), disp(j);
+        for k=j+1:qtdeRuido+1:j+passoRotacao
+          image_data{i,k}=imresize(image_data{i,j},tamanhoImg);
+          %disp("escala: "), disp(k);
+          tamanhoImg=tamanhoImg+.25;
+          for l=k+1:k+qtdeRuido
+            image_data{i,l}=imnoise(image_data{i,k},"salt & pepper",ruido);
+            %disp("ruido: "), disp(l);
+            ruido=ruido+.01;
+          endfor
+          ruido=0;
         endfor
-        ruido=0;
+        tamanhoImg=.5;
       endfor
-      tamanhoImg=.5;
     endfor
-    contador=contador+1;
-    if contador==length(arquivos)+1
-      break;
-    endif
-  endfor

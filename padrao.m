@@ -1,4 +1,4 @@
-function etiqueta = padrao()
+function [treino,teste] = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -41,6 +41,8 @@ function etiqueta = padrao()
           ruido=ruido+.01;
           humom=[humom;humoments(image_data{i,l})];
           etiqueta(m,:)=i-1;
+          %separando em conjuntos treino e teste
+          [treino, teste] = amostra(humom(m,:),25);
           m++;
         endfor
         ruido=0;
@@ -49,6 +51,5 @@ function etiqueta = padrao()
     endfor
   endfor
   
-  %separando em conjuntos treino e teste
-  %amostra();
+  
   

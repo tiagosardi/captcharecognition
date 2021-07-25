@@ -1,6 +1,6 @@
 # Captcha Number Recognition
 
-## Pré processamento (mais de 7000 modelos gerados), extração de características e classificação de números. 
+## Pré processamento, extração de características e classificação de números. 
 ![Badge](https://img.shields.io/badge/Octave-v%206.1.1-lightgrey)
 
 <!--ts-->

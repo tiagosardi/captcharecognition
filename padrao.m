@@ -1,4 +1,4 @@
-function humom = padrao()
+function etiqueta = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -23,7 +23,6 @@ function humom = padrao()
   passoRotacao = qtdeEscala*qtdeRuido+qtdeEscala;
   m=1;
   humom=[];
-  h=[];
   for i=1:length(arquivos)
     img = imread(fullfile(endereco , arquivos(i,1).name));
     disp("Loading: "), disp(length(arquivos)-i);
@@ -40,9 +39,9 @@ function humom = padrao()
         for l=k+1:k+qtdeRuido
           image_data{i,l}=imnoise(image_data{i,k},"salt & pepper",ruido);
           ruido=ruido+.01;
-          h=horzcat(humoments(image_data{i,l}),i-1);
-          humom=[humom;h];
-          
+          humom=[humom;humoments(image_data{i,l})];
+          etiqueta(m,:)=i-1;
+          m++;
         endfor
         ruido=0;
       endfor
@@ -50,5 +49,6 @@ function humom = padrao()
     endfor
   endfor
   
-  %humom=humoments(image_data{1,50});
-
+  %separando em conjuntos treino e teste
+  %amostra();
+  

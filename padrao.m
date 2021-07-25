@@ -1,4 +1,4 @@
-function image_data = padrao()
+function humom = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -16,31 +16,39 @@ function image_data = padrao()
   %criei mais 5 imagens com ruidos sal e pimenta com diferentes intensidades
   qtdeRuido=5;
   image_data=cell(length(arquivos),qtdeRotacao*qtdeEscala*qtdeRuido);
+
   tamanhoImg=.5;
   ruido=0;
-  
   passoOriginal= (qtdeEscala*qtdeRuido+qtdeEscala)*qtdeRotacao+qtdeRotacao;
   passoRotacao = qtdeEscala*qtdeRuido+qtdeEscala;
-
-    for i=1:length(arquivos)
-      img = imread(fullfile(endereco , arquivos(i,1).name));
-      disp("Loading: "), disp(length(arquivos)-i);
-      image_data{i,1}=img;
-      for j=2:passoRotacao+1:i+passoRotacao*qtdeRotacao
-        num = floor(1 + (360-1)*rand(1,1));
-        image_data{i,j}=imrotate(image_data{i,1}, num);
-        %disp("rotacao: "), disp(j);
-        for k=j+1:qtdeRuido+1:j+passoRotacao
-          image_data{i,k}=imresize(image_data{i,j},tamanhoImg);
-          %disp("escala: "), disp(k);
-          tamanhoImg=tamanhoImg+.25;
-          for l=k+1:k+qtdeRuido
-            image_data{i,l}=imnoise(image_data{i,k},"salt & pepper",ruido);
-            %disp("ruido: "), disp(l);
-            ruido=ruido+.01;
-          endfor
-          ruido=0;
+  m=1;
+  humom=[];
+  h=[];
+  for i=1:length(arquivos)
+    img = imread(fullfile(endereco , arquivos(i,1).name));
+    disp("Loading: "), disp(length(arquivos)-i);
+    image_data{i,1}=img;
+    
+    for j=2:passoRotacao+1:i+passoRotacao*qtdeRotacao
+      num = floor(1 + (360-1)*rand(1,1));
+      image_data{i,j}=imrotate(image_data{i,1}, num);
+      %disp("rotacao: "), disp(j);
+      for k=j+1:qtdeRuido+1:j+passoRotacao
+        image_data{i,k}=imresize(image_data{i,j},tamanhoImg);
+        %disp("escala: "), disp(k);
+        tamanhoImg=tamanhoImg+.25;
+        for l=k+1:k+qtdeRuido
+          image_data{i,l}=imnoise(image_data{i,k},"salt & pepper",ruido);
+          ruido=ruido+.01;
+          h=horzcat(humoments(image_data{i,l}),i-1);
+          humom=[humom;h];
+          
         endfor
-        tamanhoImg=.5;
+        ruido=0;
       endfor
+      tamanhoImg=.5;
     endfor
+  endfor
+  
+  %humom=humoments(image_data{1,50});
+

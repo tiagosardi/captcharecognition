@@ -23,7 +23,7 @@ Na extração de características, o objetivo é representar os dados de entrada
 ### Features
 
 - [x] Construção do modelo
-- [ ] Momentos de HU extraídos
+- [x] Momentos de HU extraídos
 - [ ] Treino e teste
 - [ ] Aprendizagem
 - [ ] Taxa de acerto

@@ -1,4 +1,4 @@
-function [treino,teste] = padrao()
+function [treino, teste] = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -40,16 +40,19 @@ function [treino,teste] = padrao()
           image_data{i,l}=imnoise(image_data{i,k},"salt & pepper",ruido);
           ruido=ruido+.01;
           humom=[humom;humoments(image_data{i,l})];
-          etiqueta(m,:)=i-1;
-          %separando em conjuntos treino e teste
-          [treino, teste] = amostra(humom(m,:),25);
+          etiqueta(m)=i-1;
+          
           m++;
+          
+          %model=train_sc(treino,);
+          %test_sc();
         endfor
         ruido=0;
       endfor
       tamanhoImg=.5;
     endfor
   endfor
-  
+  %separando em conjuntos treino e teste
+  [treino, teste] = amostra(etiqueta,25);
   
   

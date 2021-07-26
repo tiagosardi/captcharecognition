@@ -1,4 +1,4 @@
-function [treino, teste] = padrao()
+function matrizTreino = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -41,11 +41,7 @@ function [treino, teste] = padrao()
           ruido=ruido+.01;
           humom=[humom;humoments(image_data{i,l})];
           etiqueta(m)=i-1;
-          
           m++;
-          
-          %model=train_sc(treino,);
-          %test_sc();
         endfor
         ruido=0;
       endfor
@@ -53,6 +49,21 @@ function [treino, teste] = padrao()
     endfor
   endfor
   %separando em conjuntos treino e teste
-  [treino, teste] = amostra(etiqueta,25);
+  [treino, teste] = amostra(etiqueta,.5);
+  matrizTreino=[];
+  matrizTeste=[];
+  %matriz de treino
+  [tamanhoTreino,~]=size(treino);
+  for i=1:tamanhoTreino
+    if(treino(i)==1)
+      matrizTreino=[matrizTreino;humom(i,:)];
+    else
+      matrizTeste=[matrizTeste;humom(i,:)];
+    endif
+  endfor
+  
+  %model=train_sc(treino,);
+  %predict=test_sc(model,teste);
+  
   
   

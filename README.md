@@ -17,18 +17,18 @@ Na extração de características, o objetivo é representar os dados de entrada
 
 # Status
 <h4 align="center"> 
-	🚧  Em construção 🚧
+	🚧 ...  Concluído ✅
 </h4>
 
 ### Features
 
 - [x] Construção do modelo
 - [x] Momentos de HU extraídos
-- [ ] Treino e teste
-- [ ] Aprendizagem
-- [ ] Taxa de acerto
-- [ ] Matriz de confusão
-- [ ] Teste do classificador
+- [x] Treino e teste
+- [x] Aprendizagem
+- [x] Taxa de acerto
+- [x] Matriz de confusão
+- [x] Teste do classificador
 
 
 # Modelo

@@ -1,4 +1,4 @@
-function [train_data,train_label] = padrao()
+function resultado = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -69,11 +69,12 @@ function [train_data,train_label] = padrao()
   %vamos comparar a etiqueta gerada e a original
   confusionmat(train_label,predict);
   
+  img = imread("numeros2.jpg");
+  %imgSegmentada eh um vetor cell onde cada celula contem um objeto detectado
+  imgSegmentada= BoundingBoxPatches(img);
   
-  
-  
-  
-  
-  
-  
-  
+  newMoments=[];
+  for i=1: length(imgSegmentada);
+    newMoments=[nMoments;humoments(imgSegmentada{i})];
+    resultado = test_sc(model,newMoments[i,:]);
+  endfor

@@ -1,4 +1,4 @@
-function matrizTreino = padrao()
+function [train_data,train_label] = padrao()
   pkg load image;
   endereco='numbers/';
   arquivos=dir(fullfile(endereco,['*.jpg']));
@@ -49,21 +49,31 @@ function matrizTreino = padrao()
     endfor
   endfor
   %separando em conjuntos treino e teste
-  [treino, teste] = amostra(etiqueta,.5);
+  [treino, teste] = amostra(etiqueta,.75);
   matrizTreino=[];
   matrizTeste=[];
   %matriz de treino
   [tamanhoTreino,~]=size(treino);
-  for i=1:tamanhoTreino
-    if(treino(i)==1)
-      matrizTreino=[matrizTreino;humom(i,:)];
-    else
-      matrizTeste=[matrizTeste;humom(i,:)];
-    endif
-  endfor
   
-  %model=train_sc(treino,);
-  %predict=test_sc(model,teste);
+  train_data=humom(treino,:);
+  train_label = etiqueta ( treino );
+  
+  test_data=humom(teste,:);
+  test_label = etiqueta ( teste );
+  
+  
+  model=train_sc(train_data,train_label);
+  % predict eh o conjunto de etiquetas geradas
+  predict=test_sc(model,test_data);
+  
+  %vamos comparar a etiqueta gerada e a original
+  confusionmat(train_label,predict);
+  
+  
+  
+  
+  
+  
   
   
   
